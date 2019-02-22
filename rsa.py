@@ -16,22 +16,23 @@ def multiplicative_inverse(e, phi):
     y1 = 1
     temp_phi = phi
 
-    while e > 0:
-        temp1 = temp_phi/e
-        temp2 = temp_phi - temp1 * e
+    while (e > 0):
+        temp1 = int(temp_phi/e)
+        temp2 = temp_phi - (temp1 * e)
         temp_phi = e
         e = temp2
+        # print(e)
 
-        x = x2 - temp1 * x1
-        y = d - temp1 * y1
+        x = x2 - (temp1 * x1)
+        y = d - (temp1 * y1)
 
         x2 = x1
         x1 = x
         d = y1
         y1 = y
 
+    print(temp_phi)
     if temp_phi == 1:
-        print(d + phi)
         return d + phi
 
 
@@ -76,7 +77,6 @@ def generate_keypair(p, q):
 
     # Return public and private keypair
     # Public key is (e, n) and private key is (d, n)
-    print((e, n), (d, n))
     return ((e, n), (d, n))
 
 
@@ -102,12 +102,12 @@ if __name__ == '__main__':
     '''
     Detect if the script is being run directly by the user
     '''
-    # print "RSA Encrypter/ Decrypter"
-    # p = int(raw_input("Enter a prime number (17, 19, 23, etc): "))
-    # q = int(raw_input("Enter another prime number (Not one you entered above): "))
-    # print "Generating your public/private keypairs now . . ."
-    # public, private = generate_keypair(p, q)
-    # print "Your public key is ", public, " and your private key is ", private
+    print("RSA Encrypter/ Decrypter")
+    p = int(input("Enter a prime number (17, 19, 23, etc): "))
+    q = int(input("Enter another prime number (Not one you entered above): "))
+    print( "Generating your public/private keypairs now . . .")
+    public, private = generate_keypair(p, q)
+    print ("Your public key is ", public, " and your private key is ", private)
     # message = raw_input("Enter a message to encrypt with your private key: ")
     # encrypted_msg = encrypt(private, message)
     # print encrypted_msg

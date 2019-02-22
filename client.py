@@ -54,8 +54,8 @@ else:
 BUFSIZ = 1024
 ADDR = (HOST, PORT)
 
-# # generating keys :
-# public, private  = generate_Keys()
+# generating keys :
+public, private  = generate_Keys()
 # print(public , private)
 
 
