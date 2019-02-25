@@ -17,13 +17,15 @@ def accept_incoming_connections():
 
 def handle_client(client):  # Takes client socket as argument.
     """Handles a single client connection."""
-
-    name = client.recv(BUFSIZ).decode("utf8")
+    clt = str(client.recv(BUFSIZ).decode("utf8")).split(" ")
+    name = clt[0]
+    print(clt)
+    key = clt[1] + clt[2]
     welcome = 'Welcome %s! If you ever want to quit, type {quit} to exit.' % name
     client.send(bytes(welcome, "utf8"))
-    msg = "%s has joined the chat!" % name
+    msg = name  + " has joined the chat! with public key : " + key
     broadcast(bytes(msg, "utf8"))
-    clients[client] = name
+    clients[client] = {"name" : name , "key" : key}
 
     while True:
         msg = client.recv(BUFSIZ)

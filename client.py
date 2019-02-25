@@ -3,14 +3,21 @@
 from socket import AF_INET, socket, SOCK_STREAM
 from threading import Thread
 import tkinter
-from rsa import generate_keypair , is_prime 
+from rsa import generate_keypair , is_prime ,encrypt ,decrypt
 
+
+# send key on the first time when we send name :
+keySent = False
 
 def receive():
     """Handles receiving of messages."""
     while True:
         try:
-            msg = client_socket.recv(BUFSIZ).decode("utf8")
+            msg = str(client_socket.recv(BUFSIZ).decode("utf8"))
+            # if "has joined the chat!" in msg:
+            #     usrs_list.insert(tkinter.END,msg.split(" ")[0])
+                # usrs_list.
+
             msg_list.insert(tkinter.END, msg)
         except OSError:  # Possibly client has left the chat.
             break
@@ -18,8 +25,16 @@ def receive():
 
 def send(event=None):  # event is passed by binders.
     """Handles sending of messages."""
-    msg = my_msg.get()
+    global keySent
+    inp = my_msg.get()
+    msg = str(inp)
+
+    if (not keySent):
+        msg += " " + str(public)
+        keySent = True
+
     my_msg.set("")  # Clears input field.
+
     client_socket.send(bytes(msg, "utf8"))
     if msg == "{quit}":
         client_socket.close()
@@ -56,7 +71,7 @@ ADDR = (HOST, PORT)
 
 # generating keys :
 public, private  = generate_Keys()
-# print(public , private)
+print("Your public key is ", public, " and your private key is ", private)
 
 
 
@@ -78,6 +93,13 @@ msg_list = tkinter.Listbox(messages_frame, height=30,
 scrollbar.pack(side=tkinter.RIGHT, fill=tkinter.Y)
 msg_list.pack(side=tkinter.LEFT, fill=tkinter.BOTH)
 msg_list.pack()
+
+#users online :
+usrs_list = tkinter.Listbox(messages_frame, height=10,
+                           width=30, yscrollcommand=scrollbar.set)
+scrollbar.pack(side=tkinter.RIGHT, fill=tkinter.Y)
+
+
 messages_frame.pack()
 
 entry_field = tkinter.Entry(top, textvariable=my_msg)

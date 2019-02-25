@@ -21,7 +21,7 @@ def multiplicative_inverse(e, phi):
         temp2 = temp_phi - (temp1 * e)
         temp_phi = e
         e = temp2
-        # print(e)
+
 
         x = x2 - (temp1 * x1)
         y = d - (temp1 * y1)
@@ -31,7 +31,6 @@ def multiplicative_inverse(e, phi):
         d = y1
         y1 = y
 
-    print(temp_phi)
     if temp_phi == 1:
         return d + phi
 
